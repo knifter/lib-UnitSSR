@@ -12,6 +12,7 @@ class UnitSSR : public TwoWireDevice
         UnitSSR(uint8_t addr = UNITSSR_ADDRESS_DEFAULT) : TwoWireDevice(addr) {};
 
         bool begin(uint8_t addr = 0);
+        uint32_t max_clock() { return 100000; }; 
 
         void setRelay(bool on);
         bool getRelay();
