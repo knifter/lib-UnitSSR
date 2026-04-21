@@ -9,7 +9,13 @@ bool UnitSSR::begin(uint8_t addr)
 {
     TwoWireDevice::begin(addr);
 
-    return ping();
+    time_t timeout = millis() + 5000;
+    while(timeout > millis())
+    {
+        if(ping())
+            return true;
+    };
+    return false;
 };
 
 void UnitSSR::setRelay(bool on)
