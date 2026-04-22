@@ -1,8 +1,8 @@
 #include <Arduino.h>
 #include <Wire.h>
-#include <UnitSSR.h>
+#include <M5UnitSSR.h>
 
-UnitSSR ssr;
+M5UnitSSR ssr;
 
 void setup()
 {
@@ -11,10 +11,10 @@ void setup()
 
     if(!ssr.begin())
     {
-        Serial.println("Unit SSR not found!");
+        Serial.println("M5Unit-SSR not found!");
         while(true);
     };
-    Serial.println("Unit SSR ready.");
+    Serial.println("M5Unit-SSR ready.");
 }
 
 void loop()

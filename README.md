@@ -1,36 +1,21 @@
-# lib-UnitSSR
+# lib-M5Unit-SSR
 
-Arduino library for M5Stack SSR (Solid State Relay) units. Covers two product families:
+Arduino library for the M5Stack **Unit ACSSR** and **Unit DCSSR** solid-state relay modules. Both share the same ESP32-C3-based firmware and I2C protocol; one `M5UnitSSR` class covers both.
 
-## UnitSSR — Unit SSR (C3 model)
+| Product     | Default I2C addr | Notes                                 |
+|-------------|:----------------:|---------------------------------------|
+| Unit ACSSR  | `0x50`           | AC load switch + addressable RGB LED  |
+| Unit DCSSR  | `0x50`           | DC load switch + addressable RGB LED  |
 
-The newer M5Stack Unit SSR with I2C control via an ESP32-C3.
+> The older M5Stack **Unit SSR** (BT136S, SKU U122) is **not** supported — it is GPIO-controlled, not I2C, and has no I2C address.
 
-- I2C address: `0x25` (default, configurable via solder pads)
-- Connector: Grove (SDA/SCL)
-
-```cpp
-UnitSSR ssr;
-
-bool ok = ssr.begin();
-ssr.setRelay(true);
-ssr.setRelay(false);
-bool on = ssr.getRelay();
-```
-
-## UnitACSSR — Unit ACSSR / Unit DCSSR
-
-M5Stack Unit ACSSR (AC load) and Unit DCSSR (DC load). Same firmware and protocol;
-`UnitDCSSR` is provided as a type alias for `UnitACSSR`.
-
-Additional features: programmable RGB LED, firmware version read, I2C address change.
-
-- I2C address: `0x50` (default, configurable)
-- Connector: Grove (SDA/SCL)
+## Usage
 
 ```cpp
-UnitACSSR ssr;               // or: UnitDCSSR ssr;
-UnitACSSR ssr(Wire, 0x50);   // explicit wire and address
+#include <M5UnitSSR.h>
+
+M5UnitSSR ssr;                 // default address 0x50
+M5UnitSSR ssr(Wire, 0x51);     // explicit wire and address
 
 bool ok = ssr.begin();
 
@@ -38,11 +23,12 @@ ssr.setRelay(true);
 ssr.setRelay(false);
 bool on = ssr.getRelay();
 
-ssr.setLEDColor(255, 0, 0);  // red
-uint32_t rgb = ssr.getLEDColor();  // 0x00RRGGBB
+ssr.setLEDColor(255, 0, 0);    // red
+ssr.setLEDColor(0x00FF8000);   // orange, 0x00RRGGBB
+uint32_t rgb = ssr.getLEDColor();
 
 uint8_t ver = ssr.getVersion();
-ssr.setDeviceAddr(0x51);     // change I2C address (persists in firmware)
+ssr.setDeviceAddr(0x51);       // change I2C address (persists in firmware)
 ```
 
 ## Dependencies
